@@ -32,7 +32,7 @@ python main_experiment.py -d mnist -nf 4 --flow orthogonal --num_ortho_vecs 8
 **Householder Sylvester flows**<br/>
 This example uses 8 Householder reflections per orthogonal matrix Q.
 ```bash
-python main_experiment.py -d mnist -nf 4 --flow householder --num_householder --num_householder 8
+python main_experiment.py -d mnist -nf 4 --flow householder --num_householder 8
 ```
 
 **Triangular Sylvester flows**<br/>
