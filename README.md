@@ -1,11 +1,12 @@
 # Sylvester normalizing flows for variational inference
 
-Pytorch implemention of Sylvester normalizing flows, based on our paper:
+Pytorch implementation of Sylvester normalizing flows, based on our paper:
 
 [Sylvester normalizing flows for variational inference](https://arxiv.org/abs/1803.05649) (UAI 2018) <br/>
-Rianne van den Berg*, Leonard Hasenclever*, Jakub Tomczak, Max Welling, 
+Rianne van den Berg*, Leonard Hasenclever*, Jakub Tomczak, Max Welling 
 
 *Equal contribution
+
 ## Requirements
 The code is compatible with:
 
@@ -15,13 +16,13 @@ The code is compatible with:
 ## Data
 The experiments can be run on the following datasets:
 * static MNIST: dataset is in data folder;
-* OMNIGLOT: the dataset could be downloaded from [link](https://github.com/yburda/iwae/blob/master/datasets/OMNIGLOT/chardata.mat);
-* Caltech 101 Silhouettes: the dataset could be downloaded from [link](https://people.cs.umass.edu/~marlin/data/caltech101_silhouettes_28_split1.mat).
-* Frey Faces: the dataset could be downloaded from [link](https://github.com/y0ast/Variational-Autoencoder/blob/master/freyfaces.pkl).
+* OMNIGLOT: the dataset can be downloaded from [link](https://github.com/yburda/iwae/blob/master/datasets/OMNIGLOT/chardata.mat);
+* Caltech 101 Silhouettes: the dataset can be downloaded from [link](https://people.cs.umass.edu/~marlin/data/caltech101_silhouettes_28_split1.mat).
+* Frey Faces: the dataset can be downloaded from [link](https://github.com/y0ast/Variational-Autoencoder/blob/master/freyfaces.pkl).
 
 ## Usage
 
-Below example commands are given for running experiments on static MNIST with different types Sylvester normalizing flows for 4 flows:
+Below, example commands are given for running experiments on static MNIST with different types of Sylvester normalizing flows, for 4 flows:
 
 **Orthogonal Sylvester flows** <br/>
 This example uses a bottleneck of size 8 (Q has 8 columns containing orthonormal vectors).
@@ -61,6 +62,7 @@ This examples uses MADEs with 320 hidden units.
 python main_experiment.py -d mnist -nf 4 --flow iaf --made_h_size 320
 ```
 
+<br/>
 More information about additional argument options can be found by running ```python main_experiment.py -h```
 
 
@@ -69,10 +71,10 @@ More information about additional argument options can be found by running ```py
 Please cite our paper if you use this code in your own work:
 
 ```
-@article{vdberg2018sylvester,
+@inproceedings{vdberg2018sylvester,
   title={Sylvester normalizing flows for variational inference},
   author={van den Berg, Rianne and Hasenclever, Leonard and Tomczak, Jakub and Welling, Max},
-  journal={proceedings of the Conference on uncertainty in artificial intelligence (UAI)},
+  booktitle={proceedings of the Conference on Uncertainty in Artificial Intelligence (UAI)},
   year={2018}
 }
 ```
