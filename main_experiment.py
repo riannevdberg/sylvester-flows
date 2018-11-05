@@ -115,22 +115,16 @@ def run(args, kwargs):
     args.model_signature = args.model_signature.replace(':', '_')
 
     snapshots_path = os.path.join(args.out_dir, 'vae_' + args.dataset + '_')
-    snap_dir = snapshots_path + args.flow + '_' + str(args.gpu_num)
+    snap_dir = snapshots_path + args.flow + '_gpunum_' + str(args.gpu_num)
 
     if args.flow != 'no_flow':
         snap_dir += '_' + 'num_flows_' + str(args.num_flows)
-
     if args.flow == 'orthogonal':
         snap_dir = snap_dir + '_num_vectors_' + str(args.num_ortho_vecs)
-    elif args.flow == 'orthogonalH':
+    elif args.flow == 'householder':
         snap_dir = snap_dir + '_num_householder_' + str(args.num_householder)
     elif args.flow == 'iaf':
         snap_dir = snap_dir + '_madehsize_' + str(args.made_h_size)
-
-    elif args.flow == 'permutation':
-        snap_dir = snap_dir + '_' + 'kernelsize_' + str(args.kernel_size)
-    elif args.flow == 'mixed':
-        snap_dir = snap_dir + '_' + 'num_householder_' + str(args.num_householder)
 
     snap_dir = snap_dir + '__' + args.model_signature + '/'
 
