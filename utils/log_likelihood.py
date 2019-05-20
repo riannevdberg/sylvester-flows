@@ -1,6 +1,6 @@
 from __future__ import print_function
 import numpy as np
-from scipy.misc import logsumexp
+from scipy.special import logsumexp
 from optimization.loss import calculate_loss_array
 
 

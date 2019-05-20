@@ -22,8 +22,7 @@ def binary_loss_function(recon_x, x, z_mu, z_var, z_0, z_k, ldj, beta=1.):
     :return: loss, ce, kl
     """
 
-    reconstruction_function = nn.BCELoss()
-    reconstruction_function.size_average = False
+    reconstruction_function = nn.BCELoss(reduction='sum')
 
     batch_size = x.size(0)
 
@@ -44,9 +43,9 @@ def binary_loss_function(recon_x, x, z_mu, z_var, z_0, z_k, ldj, beta=1.):
     kl = (summed_logs - summed_ldj)
     loss = bce + beta * kl
 
-    loss /= float(batch_size)
-    bce /= float(batch_size)
-    kl /= float(batch_size)
+    loss = loss / float(batch_size)
+    bce = bce / float(batch_size)
+    kl = kl / float(batch_size)
 
     return loss, bce, kl
 
@@ -76,7 +75,7 @@ def multinomial_loss_function(x_logit, x, z_mu, z_var, z_0, z_k, ldj, args, beta
 
     # - N E_q0 [ ln p(x|z_k) ]
     # sums over batch dimension (and feature dimension)
-    ce = cross_entropy(x_logit, target, size_average=False)
+    ce = F.cross_entropy(x_logit, target, reduction='sum')
 
     # ln p(z_k)  (not averaged)
     log_p_zk = log_normal_standard(z_k, dim=1)
@@ -92,9 +91,9 @@ def multinomial_loss_function(x_logit, x, z_mu, z_var, z_0, z_k, ldj, args, beta
     kl = (summed_logs - summed_ldj)
     loss = ce + beta * kl
 
-    loss /= float(batch_size)
-    ce /= float(batch_size)
-    kl /= float(batch_size)
+    loss = loss / float(batch_size)
+    ce = ce / float(batch_size)
+    kl = kl / float(batch_size)
 
     return loss, ce, kl
 
@@ -140,7 +139,7 @@ def multinomial_loss_array(x_logit, x, z_mu, z_var, z_0, z_k, ldj, args, beta=1.
 
     # - N E_q0 [ ln p(x|z_k) ]
     # computes cross entropy over all dimensions separately:
-    ce = cross_entropy(x_logit, target, size_average=False, reduce=False)
+    ce = F.cross_entropy(x_logit, target, reduction='none')
     # sum over feature dimension
     ce = ce.view(batch_size, -1).sum(dim=1)
 
@@ -243,7 +242,7 @@ def calculate_loss(x_mean, x, z_mu, z_var, z_0, z_k, ldj, args, beta=1.):
 
     elif args.input_type == 'multinomial':
         loss, rec, kl = multinomial_loss_function(x_mean, x, z_mu, z_var, z_0, z_k, ldj, args, beta=beta)
-        bpd = loss.data[0] / (np.prod(args.input_size) * np.log(2.))
+        bpd = loss.item() / (np.prod(args.input_size) * np.log(2.))
 
     else:
         raise ValueError('Invalid input type for calculate loss: %s.' % args.input_type)

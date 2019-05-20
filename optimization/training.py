@@ -37,13 +37,13 @@ def train(epoch, train_loader, model, opt, args):
         loss, rec, kl, bpd = calculate_loss(x_mean, data, z_mu, z_var, z0, zk, ldj, args, beta=beta)
 
         loss.backward()
-        train_loss[batch_idx] = loss.data[0]
+        train_loss[batch_idx] = loss.item()
         train_bpd[batch_idx] = bpd
 
         opt.step()
 
-        rec = rec.data[0]
-        kl = kl.data[0]
+        rec = rec.item()
+        kl = kl.item()
 
         num_data += len(data)
 
@@ -51,11 +51,11 @@ def train(epoch, train_loader, model, opt, args):
             if args.input_type == 'binary':
                 print('Epoch: {:3d} [{:5d}/{:5d} ({:2.0f}%)]  \tLoss: {:11.6f}\trec: {:11.6f}\tkl: {:11.6f}'.format(
                     epoch, num_data, len(train_loader.sampler), 100. * batch_idx / len(train_loader),
-                    loss.data[0], rec, kl))
+                    loss.item(), rec, kl))
             else:
                 perc = 100. * batch_idx / len(train_loader)
                 tmp = 'Epoch: {:3d} [{:5d}/{:5d} ({:2.0f}%)] \tLoss: {:11.6f}\tbpd: {:8.6f}'
-                print(tmp.format(epoch, num_data, len(train_loader.sampler), perc, loss.data[0], bpd),
+                print(tmp.format(epoch, num_data, len(train_loader.sampler), perc, loss.item(), bpd),
                       '\trec: {:11.3f}\tkl: {:11.6f}'.format(rec, kl))
 
     if args.input_type == 'binary':
@@ -93,7 +93,7 @@ def evaluate(data_loader, model, args, testing=False, file=None, epoch=0):
         batch_loss, rec, kl, batch_bpd = calculate_loss(x_mean, data, z_mu, z_var, z0, zk, ldj, args)
 
         bpd += batch_bpd
-        loss += batch_loss.data[0]
+        loss += batch_loss.item()
 
         # PRINT RECONSTRUCTIONS
         if batch_idx == 1 and testing is False:
@@ -104,7 +104,7 @@ def evaluate(data_loader, model, args, testing=False, file=None, epoch=0):
 
     # Compute log-likelihood
     if testing:
-        test_data = Variable(data_loader.dataset.data_tensor, volatile=True)
+        test_data = Variable(data_loader.dataset.tensors[0], volatile=True)
 
         if args.cuda:
             test_data = test_data.cuda()
