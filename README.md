@@ -8,10 +8,22 @@ Rianne van den Berg*, Leonard Hasenclever*, Jakub Tomczak, Max Welling
 *Equal contribution
 
 ## Requirements
-The code is compatible with:
+The latest release of the code is compatible with:
 
-  * `pytorch 0.3.0` **WARNING**: More recent versions of pytorch have different default flags for the binary cross entropy loss module: nn.BCELoss(). You have to adapt the appropriate flags if you want to port this code to a later version.  
+  * `pytorch 1.0.0`
+
+  * `python 3.7`
+
+Thanks to Martin Engelcke for adapting the code	to provide this compatibility.
+<br/>
+
+Version v0.3.0_2.7 is compatible with:
+  
+  * `pytorch 0.3.0` **WARNING**: More recent versions of pytorch have different default flags for the binary cross entropy loss module: nn.BCELoss(). You have to adapt the appropriate flags if you want to port this code to a later vers\
+ion.
+
   * `python 2.7`
+
 
 ## Data
 The experiments can be run on the following datasets:
